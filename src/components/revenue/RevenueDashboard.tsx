@@ -14,7 +14,8 @@ export default function RevenueDashboard() {
     
     // Mock previous month data to show MoM trend using a deterministic multiplier instead of Math.random()
     // to avoid React purity violations and re-render flickering.
-    const deterministicMultiplier = 0.8 + ((property.id.length % 5) * 0.08) // Pseudo-random based on ID
+    const checksum = property.id.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0)
+    const deterministicMultiplier = 0.8 + ((checksum % 5) * 0.08) // Pseudo-random based on ID checksum
     const previousNet = aggregated.netPayout * deterministicMultiplier
     const momChange = ((aggregated.netPayout - previousNet) / previousNet) * 100
 
