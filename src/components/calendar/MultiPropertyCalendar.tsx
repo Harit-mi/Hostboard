@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react'
 import { eachDayOfInterval, format } from 'date-fns'
-import { properties, bookings, Booking } from '@/lib/mockData'
+import { mockProperties, mockBookings, Booking } from '@/lib/mockData'
 import PropertyLane from './PropertyLane'
 import BookingPanel from './BookingPanel'
 import { ChevronLeft, ChevronRight, Calendar as CalendarIcon } from 'lucide-react'
@@ -68,11 +68,11 @@ export default function MultiPropertyCalendar() {
 
           {/* Property Lanes */}
           <div className="flex-1 overflow-y-auto min-w-max">
-            {properties.map(property => (
+            {mockProperties.map(property => (
               <PropertyLane 
                 key={property.id}
                 property={property}
-                bookings={bookings.filter(b => b.propertyId === property.id)}
+                bookings={mockBookings.filter(b => b.propertyId === property.id)}
                 startDate={startDate}
                 endDate={endDate}
                 onSelectBooking={(booking) => setSelectedBooking({ booking, propertyId: property.id })}
@@ -85,7 +85,7 @@ export default function MultiPropertyCalendar() {
         {selectedBooking && (
           <BookingPanel 
             booking={selectedBooking.booking} 
-            property={properties.find(p => p.id === selectedBooking.propertyId)!}
+            property={mockProperties.find(p => p.id === selectedBooking.propertyId)!}
             onClose={() => setSelectedBooking(null)} 
           />
         )}

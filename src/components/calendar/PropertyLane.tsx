@@ -102,7 +102,6 @@ export default function PropertyLane({ property, bookings, startDate, endDate, o
           )
         })}
       </div>
-      )}
     </div>
   )
 }
