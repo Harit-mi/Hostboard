@@ -11,24 +11,16 @@ export default function MultiPropertyCalendar() {
   const days = eachDayOfInterval({ start: startDate, end: endDate })
 
   return (
-    <div className="w-full h-full bg-slate-50 flex flex-col font-sans">
-      <header className="p-6 pb-4 border-b border-slate-200 bg-white flex justify-between items-center">
+    <div className="w-full h-full flex flex-col font-sans p-6 overflow-hidden">
+      <div className="flex items-center justify-between mb-6 shrink-0">
         <div>
-          <h1 className="text-2xl font-semibold text-slate-900 tracking-tight">HostBoard</h1>
-          <p className="text-sm text-slate-500 mt-1">Multi-Property Calendar</p>
+          <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Calendar Board</h1>
+          <p className="text-sm text-slate-500 mt-1">Multi-Property timeline view</p>
         </div>
-        <div className="flex gap-4">
-          <a href="/turnovers" className="text-sm font-medium text-slate-700 bg-slate-100 hover:bg-slate-200 px-4 py-2 rounded-lg transition-colors">
-            Turnovers
-          </a>
-          <a href="/revenue" className="text-sm font-medium text-slate-700 bg-slate-100 hover:bg-slate-200 px-4 py-2 rounded-lg transition-colors">
-            Revenue
-          </a>
-        </div>
-      </header>
+      </div>
 
-      <div className="flex-1 overflow-auto p-6">
-        <div className="min-w-[1000px] border border-slate-200 bg-white rounded-xl shadow-sm overflow-hidden">
+      <div className="flex-1 min-h-0 overflow-auto bg-white rounded-xl shadow-[0_2px_10px_-3px_rgba(6,81,237,0.1)] border border-slate-200">
+        <div className="min-w-[1000px] flex flex-col h-full">
           {/* Calendar Header / Date Axis */}
           <div className="flex border-b border-slate-200 bg-slate-50">
             <div className="w-64 shrink-0 border-r border-slate-200 p-4 flex items-center">
