@@ -1,24 +1,18 @@
 @import "tailwindcss";
 
 :root {
-  --background: #F0FDFA;
-  --foreground: #134E4A;
-  --primary: #0D9488;
-  --secondary: #2DD4BF;
-  --accent: #D97706;
-  --border: #5EEAD4;
+  --background: #FDFDFD;
+  --foreground: #09090B;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --color-primary: var(--primary);
-  --color-secondary: var(--secondary);
-  --color-accent: var(--accent);
-  --color-border: var(--border);
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular;
   
-  --font-sans: var(--font-josefin), ui-sans-serif, system-ui;
-  --font-serif: var(--font-cinzel), ui-serif, Georgia;
+  --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-smooth: cubic-bezier(0.25, 0.1, 0.25, 1);
 }
 
 body {
@@ -27,6 +21,15 @@ body {
   font-family: var(--font-sans);
 }
 
-.heading-luxury {
-  font-family: var(--font-serif);
+.glass-panel {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.smooth-transition {
+  transition-property: all;
+  transition-duration: 400ms;
+  transition-timing-function: var(--ease-spring);
 }

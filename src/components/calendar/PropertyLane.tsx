@@ -17,19 +17,19 @@ export default function PropertyLane({ property, bookings, startDate, endDate, o
   const totalDays = differenceInCalendarDays(endDate, startDate) + 1
 
   return (
-    <div className="flex bg-white group hover:bg-background transition-colors border-b border-border last:border-b-0 min-w-max">
+    <div className="flex bg-transparent group hover:bg-black/[0.02] smooth-transition border-b border-black/5 last:border-b-0 min-w-max">
       {/* Property Info (Sticky Left) */}
-      <div className="w-[280px] shrink-0 border-r border-border p-4 sticky left-0 bg-white group-hover:bg-background z-10 transition-colors">
-        <h3 className="font-semibold text-foreground heading-luxury text-lg">{property.name}</h3>
-        <div className="mt-1.5 flex items-center text-[11px] font-medium tracking-wide">
+      <div className="w-[280px] shrink-0 border-r border-black/5 p-5 sticky left-0 bg-white/40 group-hover:bg-white/60 z-10 smooth-transition backdrop-blur-md">
+        <h3 className="font-medium text-zinc-900 tracking-tight">{property.name}</h3>
+        <div className="mt-2 flex items-center text-[11px] font-medium tracking-wide">
           {property.syncStatus === 'synced' ? (
-            <span className="flex items-center text-primary bg-primary/10 px-2 py-0.5 rounded border border-primary/20">
-              <CheckCircle2 className="w-3 h-3 mr-1" />
+            <span className="flex items-center text-zinc-500">
+              <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 mr-2 shadow-[0_0_8px_rgba(52,211,153,0.5)]" />
               Synced {property.lastSynced}
             </span>
           ) : (
-            <span className="flex items-center text-accent bg-accent/10 px-2 py-0.5 rounded border border-accent/20">
-              <AlertCircle className="w-3 h-3 mr-1" />
+            <span className="flex items-center text-rose-500">
+              <div className="w-1.5 h-1.5 rounded-full bg-rose-500 mr-2 shadow-[0_0_8px_rgba(244,63,94,0.5)]" />
               Sync failed
             </span>
           )}
@@ -43,16 +43,15 @@ export default function PropertyLane({ property, bookings, startDate, endDate, o
           const currentDate = new Date(startDate)
           currentDate.setDate(startDate.getDate() + i)
           
-          // Check for same-day turnover
           const endsToday = bookings.some(b => isSameDay(new Date(b.checkOut), currentDate))
           const startsToday = bookings.some(b => isSameDay(new Date(b.checkIn), currentDate))
           const isTurnover = endsToday && startsToday
 
           return (
-            <div key={i} className="w-[80px] shrink-0 border-r border-border/50 last:border-r-0 relative">
+            <div key={i} className="w-[80px] shrink-0 border-r border-black/[0.03] last:border-r-0 relative">
               {isTurnover && (
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[2px] h-full bg-accent/20 flex flex-col items-center z-10 pointer-events-none">
-                  <div className="w-2.5 h-2.5 bg-accent rounded mt-2 border border-white" title="Same-day turnover" />
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1px] h-full bg-gradient-to-b from-rose-500/0 via-rose-500/20 to-rose-500/0 flex flex-col items-center z-10 pointer-events-none">
+                  <div className="w-1.5 h-1.5 bg-rose-500 rounded-full mt-3 shadow-[0_0_8px_rgba(244,63,94,0.4)]" title="Same-day turnover" />
                 </div>
               )}
             </div>
@@ -81,21 +80,21 @@ export default function PropertyLane({ property, bookings, startDate, endDate, o
 
           const isAirbnb = booking.platform === 'airbnb'
           const bgClass = isAirbnb 
-            ? 'bg-primary hover:bg-primary/90 text-white' 
-            : 'bg-secondary hover:bg-secondary/90 text-foreground'
+            ? 'bg-[#FF5A5F] text-white shadow-sm shadow-[#FF5A5F]/20' 
+            : 'bg-[#003580] text-white shadow-sm shadow-[#003580]/20'
 
           return (
             <div
               key={booking.id}
               onClick={() => onSelectBooking(booking)}
-              className={`absolute top-2.5 bottom-2.5 rounded flex items-center px-3 cursor-pointer transition-colors z-20 ${bgClass}`}
+              className={`absolute top-3 bottom-3 rounded-full flex items-center px-4 cursor-pointer smooth-transition z-20 ${bgClass} hover:scale-[1.02] active:scale-[0.98] hover:shadow-md origin-left`}
               style={{
-                left: `calc(${leftPercent}% + 4px)`,
-                width: `calc(${widthPercent}% - 8px)`,
+                left: `calc(${leftPercent}% + 6px)`,
+                width: `calc(${widthPercent}% - 12px)`,
               }}
             >
-              <div className="truncate text-xs font-semibold tracking-wide w-full flex items-center justify-between">
-                <span>{booking.guestName}</span>
+              <div className="truncate text-xs font-medium tracking-wide w-full">
+                {booking.guestName}
               </div>
             </div>
           )

@@ -1,9 +1,7 @@
-'use client'
-
 import React from 'react'
 import { Booking, Property } from '@/lib/mockData'
 import { format } from 'date-fns'
-import { X, User, Calendar, ExternalLink, MapPin, DollarSign, Sparkles } from 'lucide-react'
+import { X, Calendar, User, CreditCard, ExternalLink, ArrowRight } from 'lucide-react'
 import { calculateBookingRevenue, formatCurrency } from '@/lib/revenue'
 
 interface BookingPanelProps {
@@ -14,99 +12,93 @@ interface BookingPanelProps {
 
 export default function BookingPanel({ booking, property, onClose }: BookingPanelProps) {
   const revenue = calculateBookingRevenue(booking.payoutCents, booking.platformSource, booking.cleaningFeeCents)
-  const isAirbnb = booking.platformSource === 'airbnb'
 
   return (
     <>
-      <div className="fixed inset-0 bg-zinc-900/20 backdrop-blur-sm z-40 transition-opacity" onClick={onClose} />
-      
-      <div className="fixed top-0 right-0 h-full w-[400px] bg-white shadow-2xl z-50 flex flex-col animate-in slide-in-from-right duration-200 border-l border-zinc-200">
-        <div className="flex items-center justify-between p-6 border-b border-zinc-100">
-          <h2 className="text-lg font-bold text-zinc-900">Booking Details</h2>
-          <button onClick={onClose} className="p-2 -mr-2 text-zinc-400 hover:bg-zinc-100 hover:text-zinc-900 rounded-full transition-colors">
-            <X className="w-5 h-5" />
+      <div 
+        className="fixed inset-0 bg-black/10 backdrop-blur-[2px] z-40 smooth-transition" 
+        onClick={onClose}
+      />
+      <div className="absolute top-0 right-0 bottom-0 w-[400px] glass-panel z-50 flex flex-col shadow-[-8px_0_32px_rgba(0,0,0,0.05)] border-l border-white animate-in slide-in-from-right duration-500 ease-out">
+        {/* Header */}
+        <div className="px-6 py-5 border-b border-black/5 flex items-center justify-between bg-white/40">
+          <div>
+            <h2 className="text-lg font-semibold text-zinc-900 tracking-tight">Booking Details</h2>
+            <p className="text-xs text-zinc-500 font-medium mt-0.5">{property.name}</p>
+          </div>
+          <button 
+            onClick={onClose}
+            className="p-2 text-zinc-400 hover:text-zinc-900 hover:bg-zinc-100/80 rounded-full smooth-transition"
+          >
+            <X className="w-4 h-4" />
           </button>
         </div>
 
+        {/* Content */}
         <div className="flex-1 overflow-y-auto p-6 space-y-8">
+          
+          {/* Guest Info */}
           <div>
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-zinc-100 rounded-full flex items-center justify-center">
-                <User className="w-6 h-6 text-zinc-400" />
+            <div className="flex items-center gap-3 mb-1">
+              <div className="w-10 h-10 rounded-full bg-zinc-100 flex items-center justify-center text-zinc-400">
+                <User className="w-5 h-5" />
               </div>
               <div>
-                <h3 className="text-xl font-bold text-zinc-900">{booking.guestName}</h3>
-                <div className="flex items-center text-sm font-medium mt-1">
-                  <span className={`px-2 py-0.5 rounded-md capitalize ${isAirbnb ? 'bg-[#FF5A5F]/10 text-[#FF5A5F]' : 'bg-[#003580]/10 text-[#003580]'}`}>
-                    {booking.platformSource}
-                  </span>
-                  <span className="mx-2 text-zinc-300">•</span>
-                  <span className="text-zinc-500">Confirmed</span>
-                </div>
+                <h3 className="font-medium text-zinc-900 text-lg">{booking.guestName}</h3>
+                <p className="text-xs text-zinc-500 flex items-center mt-0.5">
+                  <span className="capitalize">{booking.platformSource}</span>
+                </p>
               </div>
             </div>
           </div>
 
-          <div>
-            <h4 className="text-xs font-bold text-zinc-400 uppercase tracking-widest mb-3">The Stay</h4>
-            <div className="bg-zinc-50 rounded-xl p-4 border border-zinc-100 space-y-4">
-              <div className="flex items-start">
-                <MapPin className="w-5 h-5 text-zinc-400 mr-3 mt-0.5" />
-                <div>
-                  <p className="text-sm font-semibold text-zinc-900">{property.name}</p>
-                </div>
+          {/* Dates */}
+          <div className="bg-white/60 p-4 rounded-2xl border border-black/5 shadow-sm">
+            <div className="flex items-center justify-between text-sm">
+              <div>
+                <p className="text-xs text-zinc-500 font-medium mb-1">Check-in</p>
+                <p className="font-semibold text-zinc-900">{format(new Date(booking.checkIn), 'MMM d, yyyy')}</p>
+                <p className="text-xs text-zinc-500 mt-0.5">3:00 PM</p>
               </div>
-              <div className="h-px bg-zinc-200" />
-              <div className="flex items-start">
-                <Calendar className="w-5 h-5 text-zinc-400 mr-3 mt-0.5" />
-                <div className="flex-1 grid grid-cols-2 gap-4">
-                  <div>
-                    <p className="text-[11px] font-semibold text-zinc-500 uppercase">Check-in</p>
-                    <p className="text-sm font-medium text-zinc-900 mt-0.5">{format(new Date(booking.checkIn), 'MMM d, yyyy')}</p>
-                  </div>
-                  <div>
-                    <p className="text-[11px] font-semibold text-zinc-500 uppercase">Check-out</p>
-                    <p className="text-sm font-medium text-zinc-900 mt-0.5">{format(new Date(booking.checkOut), 'MMM d, yyyy')}</p>
-                  </div>
-                </div>
+              <ArrowRight className="w-4 h-4 text-zinc-300" />
+              <div className="text-right">
+                <p className="text-xs text-zinc-500 font-medium mb-1">Check-out</p>
+                <p className="font-semibold text-zinc-900">{format(new Date(booking.checkOut), 'MMM d, yyyy')}</p>
+                <p className="text-xs text-zinc-500 mt-0.5">11:00 AM</p>
               </div>
             </div>
           </div>
 
+          {/* Financials */}
           <div>
-            <h4 className="text-xs font-bold text-zinc-400 uppercase tracking-widest mb-3 flex items-center"><DollarSign className="w-4 h-4 mr-1"/>Payout Breakdown</h4>
-            <div className="bg-white rounded-xl border border-zinc-200 overflow-hidden">
-              <div className="p-4 space-y-3 font-mono text-sm">
-                <div className="flex justify-between">
-                  <span className="text-zinc-500">Gross Booking</span>
-                  <span className="font-medium text-zinc-900">{formatCurrency(revenue.grossBookingTotal)}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-zinc-500">Platform Fee</span>
-                  <span className="font-medium text-rose-600">-{formatCurrency(revenue.platformFee)}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-zinc-500">Cleaning Fee</span>
-                  <span className="font-medium text-rose-600">-{formatCurrency(revenue.cleaningFee)}</span>
-                </div>
+            <h4 className="text-xs font-semibold text-zinc-400 uppercase tracking-widest mb-4">Financials</h4>
+            <div className="space-y-3">
+              <div className="flex justify-between text-sm">
+                <span className="text-zinc-600">Gross Payout</span>
+                <span className="font-medium text-zinc-900">{formatCurrency(revenue.grossPayoutCents)}</span>
               </div>
-              <div className="bg-zinc-50 p-4 border-t border-zinc-200 flex justify-between items-center">
-                <span className="text-sm font-bold text-zinc-900">Net Payout</span>
-                <span className="text-lg font-bold text-emerald-600">{formatCurrency(revenue.netPayout)}</span>
+              <div className="flex justify-between text-sm">
+                <span className="text-zinc-600">Platform Fee</span>
+                <span className="font-medium text-zinc-900">-{formatCurrency(revenue.platformFeeCents)}</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="text-zinc-600">Cleaning Fee</span>
+                <span className="font-medium text-zinc-900">-{formatCurrency(revenue.cleaningFeeCents)}</span>
+              </div>
+              <div className="pt-3 border-t border-black/5 flex justify-between">
+                <span className="text-sm font-medium text-zinc-900">Net Revenue</span>
+                <span className="font-semibold text-zinc-900">{formatCurrency(revenue.netRevenueCents)}</span>
               </div>
             </div>
           </div>
 
-          <div>
-            <h4 className="text-xs font-bold text-zinc-400 uppercase tracking-widest mb-3 flex items-center"><Sparkles className="w-4 h-4 mr-1"/>Cleaning Status</h4>
-            <div className={`px-4 py-3 rounded-xl border text-sm font-semibold flex items-center justify-between ${
-              booking.cleaningStatus === 'complete' ? 'bg-emerald-50 border-emerald-200 text-emerald-700' :
-              booking.cleaningStatus === 'in_progress' ? 'bg-amber-50 border-amber-200 text-amber-700' :
-              'bg-zinc-50 border-zinc-200 text-zinc-700'
-            }`}>
-              <span className="capitalize">{booking.cleaningStatus.replace('_', ' ')}</span>
-            </div>
-          </div>
+        </div>
+
+        {/* Footer Actions */}
+        <div className="p-6 border-t border-black/5 bg-white/40">
+          <button className="w-full py-2.5 bg-zinc-900 hover:bg-zinc-800 text-white rounded-full text-sm font-medium smooth-transition hover:shadow-lg hover:shadow-zinc-900/20 active:scale-[0.98]">
+            Message Guest
+          </button>
         </div>
       </div>
     </>

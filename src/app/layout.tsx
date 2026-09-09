@@ -1,21 +1,21 @@
 import type { Metadata } from "next";
-import { Cinzel, Josefin_Sans } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import AppLayout from "@/components/layout/AppLayout";
 
-const cinzel = Cinzel({
-  variable: "--font-cinzel",
+const geistSans = Geist({
+  variable: "--font-geist-sans",
   subsets: ["latin"],
 });
 
-const josefin = Josefin_Sans({
-  variable: "--font-josefin",
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
   subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-  title: "HostBoard MVP",
-  description: "Multi-property management for short-term rental hosts",
+  title: "HostBoard",
+  description: "Modern Multi-Property Management",
 };
 
 export default function RootLayout({
@@ -25,9 +25,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${cinzel.variable} ${josefin.variable} font-sans antialiased`}
-      >
+      <body className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased selection:bg-zinc-900 selection:text-white`}>
         <AppLayout>{children}</AppLayout>
       </body>
     </html>
