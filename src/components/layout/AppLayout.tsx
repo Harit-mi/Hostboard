@@ -46,7 +46,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           })}
         </nav>
 
-        <div className="p-4 border-t border-black/5">
+        <div className="p-4 border-t border-black/5 pb-10">
           <button className="flex items-center gap-3 px-3 py-2 w-full text-zinc-500 hover:text-zinc-900 smooth-transition text-sm font-medium rounded-full hover:bg-zinc-100/80">
             <Settings className="w-4 h-4 text-zinc-400" />
             Settings
@@ -84,7 +84,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         </header>
 
         {/* Page Canvas */}
-        <main className="flex-1 overflow-auto relative">
+        <main className="flex-1 flex flex-col min-h-0 min-w-0 overflow-hidden relative">
           {/* Subtle gradient orb for visual flair */}
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-zinc-200/40 rounded-full blur-3xl -z-10 pointer-events-none opacity-50" />
           {children}

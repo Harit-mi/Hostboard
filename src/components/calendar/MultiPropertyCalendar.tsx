@@ -8,15 +8,24 @@ import BookingPanel from './BookingPanel'
 import { ChevronLeft, ChevronRight, Calendar as CalendarIcon } from 'lucide-react'
 
 export default function MultiPropertyCalendar() {
-  const [startDate, setStartDate] = useState(new Date('2023-10-07'))
+  const [startDate, setStartDate] = useState<Date | null>(null)
   const [selectedBooking, setSelectedBooking] = useState<{ booking: Booking, propertyId: string } | null>(null)
   
+  // Use useEffect to prevent SSR hydration mismatch with dynamic dates
+  React.useEffect(() => {
+    const d = new Date()
+    d.setDate(d.getDate() - 2)
+    setStartDate(d)
+  }, [])
+
+  if (!startDate) return null
+
   const endDate = new Date(startDate)
   endDate.setDate(startDate.getDate() + 13)
   const days = eachDayOfInterval({ start: startDate, end: endDate })
 
   return (
-    <div className="w-full h-full flex flex-col font-sans p-6 overflow-hidden max-w-[1600px] mx-auto relative">
+    <div className="w-full h-full flex flex-col font-sans p-6 min-w-0 overflow-hidden max-w-[1600px] mx-auto relative">
       
       {/* Sleek Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-8 shrink-0 gap-4">
@@ -25,11 +34,7 @@ export default function MultiPropertyCalendar() {
           <p className="text-sm text-zinc-500 mt-1">Timeline overview across all properties</p>
         </div>
         
-        <div className="flex items-center gap-2">
-          <button className="px-4 py-2 bg-white border border-black/5 rounded-full text-sm font-medium text-zinc-600 hover:text-zinc-900 hover:shadow-sm smooth-transition flex items-center">
-            <CalendarIcon className="w-4 h-4 mr-2 opacity-50" />
-            Today
-          </button>
+        <div className="flex items-center gap-2 shrink-0">
           <div className="flex bg-white border border-black/5 rounded-full shadow-sm p-1">
             <button className="p-1.5 text-zinc-400 hover:text-zinc-900 rounded-full hover:bg-zinc-100 smooth-transition">
               <ChevronLeft className="w-4 h-4" />
@@ -41,6 +46,10 @@ export default function MultiPropertyCalendar() {
               <ChevronRight className="w-4 h-4" />
             </button>
           </div>
+          <button className="px-4 py-2 bg-white border border-black/5 rounded-full text-sm font-medium text-zinc-600 hover:text-zinc-900 hover:shadow-sm smooth-transition flex items-center">
+            <CalendarIcon className="w-4 h-4 mr-2 opacity-50" />
+            Today
+          </button>
         </div>
       </div>
 
@@ -55,10 +64,10 @@ export default function MultiPropertyCalendar() {
             </div>
             <div className="flex-1 flex">
               {days.map((day, i) => {
-                const isToday = i === 0
+                const isToday = day.getDate() === new Date().getDate() && day.getMonth() === new Date().getMonth() && day.getFullYear() === new Date().getFullYear()
                 return (
                   <div key={day.toISOString()} className="w-[80px] shrink-0 border-r border-black/5 last:border-r-0 p-3 flex flex-col items-center justify-center">
-                    <div className="text-[10px] font-medium text-zinc-400 uppercase tracking-widest mb-1.5">{format(day, 'EEE')}</div>
+                    <div className={`text-[10px] font-medium uppercase tracking-widest mb-1.5 ${isToday ? 'text-zinc-900 font-bold' : 'text-zinc-400'}`}>{format(day, 'EEE')}</div>
                     <div className={`text-sm font-semibold w-8 h-8 flex items-center justify-center rounded-full smooth-transition ${isToday ? 'bg-zinc-900 text-white shadow-md' : 'text-zinc-900'}`}>
                       {format(day, 'd')}
                     </div>
