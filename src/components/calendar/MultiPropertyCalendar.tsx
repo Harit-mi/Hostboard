@@ -15,6 +15,7 @@ export default function MultiPropertyCalendar() {
   React.useEffect(() => {
     const d = new Date()
     d.setDate(d.getDate() - 2)
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setStartDate(d)
   }, [])
 
